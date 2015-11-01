@@ -1,0 +1,29 @@
+
+
+sign up page
+
+sign in page
+
+sign out
+
+close account -> if not currently active in an auction. 1)has item in auction. 2)has the highest bid on an item.
+
+user adds items
+
+user submits item for auction
+
+user sees the list of items currently in auction
+
+user sees the current bid for an item
+
+user bids for an item in auction
+
+user is notified if he has won in an auction
+
+
+
+
+
+user {id, username, password, name}
+item {id, user_id, name, begin_price}
+auction {item_id, start_timestamp, highest_bid, highest_bider_id}
