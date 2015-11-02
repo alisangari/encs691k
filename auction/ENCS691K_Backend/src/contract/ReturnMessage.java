@@ -24,5 +24,13 @@ public class ReturnMessage {
 		this.code=-2;
 		this.message="Either username or password was invalid.";
 	}
+	
+	public int getCode(){
+		return this.code;
+	}
+	
+	public String getMessage(){
+		return this.message;
+	}
 }
 
