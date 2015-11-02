@@ -4,27 +4,36 @@ import model.User;
 
 import org.bson.Document;
 
+import utility.Strings;
+
 import com.mongodb.MongoClient;
 import com.mongodb.client.FindIterable;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoDatabase;
 
 import contract.Constants;
+import contract.ReturnMessage;
 
 public class UserRepository {
-	private static MongoClient client = new MongoClient(Constants.HOST, Constants.PORT);
+	private static MongoClient client = new MongoClient(Constants.HOST,
+			Constants.PORT);
 	private static MongoDatabase db = client.getDatabase(Constants.DB);
 	private static MongoCollection<Document> coll = db
 			.getCollection(Constants.COLLECTION);
 
-	public static void Save(User user) {
+	public static ReturnMessage Save(User user) {
 		Document doc = new Document();
-
+		ReturnMessage msg = new ReturnMessage();
+		User existingUser = get(user.getUsername());
+		if (!Strings.isNull(existingUser.getUsername())) {
+			msg.duplicateExists();
+			return msg;
+		}
 		doc.append("username", user.getUsername()).append("password",
 				user.getPassword());
-
 		coll.insertOne(doc);
-
+		msg.ok();
+		return msg;
 	}
 
 	public static User get(String username) {
