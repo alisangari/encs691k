@@ -10,6 +10,7 @@ import com.mongodb.MongoClient;
 import com.mongodb.client.FindIterable;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoDatabase;
+import com.mongodb.client.result.DeleteResult;
 
 import contract.Constants;
 import contract.ReturnMessage;
@@ -39,7 +40,6 @@ public class UserRepository {
 	public static User get(String username) {
 		User user = new User();
 		Document doc = new Document("username", username);
-
 		FindIterable<Document> users = coll.find(doc);
 		for (Document document : users) {
 			String docId = (String) document.get("username");
@@ -51,9 +51,18 @@ public class UserRepository {
 		return user;
 	}
 
-	public static void delete(String username) {
+	public static boolean delete(String username) {
 		Document doc = new Document("username", username);
-		coll.deleteMany(doc);
+		DeleteResult res = coll.deleteOne(doc);
+		return res.getDeletedCount() > 0;
+	}
+
+	public static boolean close(String username, String password) {
+		User user = get(username);
+		if (password.equalsIgnoreCase(user.getPassword())) {
+			return delete(username);
+		}
+		return false;
 	}
 
 }
