@@ -8,9 +8,9 @@ sign out
 
 close account -> if not currently active in an auction. 1)has item in auction. 2)has the highest bid on an item.
 
-user adds items
+user adds items {name, basePrice}
 
-user submits item for auction
+user submits item for auction 
 
 user sees the list of items currently in auction
 
