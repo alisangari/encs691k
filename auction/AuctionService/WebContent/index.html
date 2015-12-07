@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="">
+<meta name="author" content="">
+
+<title>ENCS691K - Auction</title>
+
+<!-- Bootstrap Core CSS -->
+<link rel="stylesheet" href="css/bootstrap.min.css" type="text/css">
+
+<!-- Custom Fonts -->
+<link
+	href='http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800'
+	rel='stylesheet' type='text/css'>
+<link
+	href='http://fonts.googleapis.com/css?family=Merriweather:400,300,300italic,400italic,700,700italic,900,900italic'
+	rel='stylesheet' type='text/css'>
+<link rel="stylesheet" href="font-awesome/css/font-awesome.min.css"
+	type="text/css">
+
+<!-- Plugin CSS -->
+<link rel="stylesheet" href="css/animate.min.css" type="text/css">
+
+<!-- Custom CSS -->
+<link rel="stylesheet" href="css/creative.css" type="text/css">
+
+<!-- Style -->
+<link rel="stylesheet" href="css/style.css" type="text/css">
+
+<!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+<!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+<!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+
+
+
+
+
+
+
+<style>
+table { 
+color: #333;
+font-family: Helvetica, Arial, sans-serif;
+width: 640px; 
+border-collapse: 
+collapse; border-spacing: 0; 
+}
+
+td, th { 
+border: 1px solid transparent; /* No more visible border */
+height: 30px; 
+transition: all 0.3s;  /* Simple transition for hover effect */
+}
+
+th {
+background: #DFDFDF;  /* Darken header a bit */
+font-weight: bold;
+text-align: center;
+}
+
+td {
+background: #FAFAFA;
+text-align: center;
+}
+
+/* Cells in even rows (2,4,6...) are one color */ 
+tr:nth-child(even) td { background: #F1F1F1; }   
+
+/* Cells in odd rows (1,3,5...) are another (excludes header cells)  */ 
+tr:nth-child(odd) td { background: #FEFEFE; }  
+
+tr td:hover { background: #666; color: #FFF; } /* Hover cell effect! */
+</style>
+
+
+</head>
+
+<body id="page-top">
+
+	<nav id="mainNav" class="navbar navbar-default navbar-fixed-top">
+		<div class="container-fluid">
+			<!-- Brand and toggle get grouped for better mobile display -->
+			<div class="navbar-header">
+				<button type="button" class="navbar-toggle collapsed"
+					data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+					<span class="sr-only">Toggle navigation</span> <span
+						class="icon-bar"></span> <span class="icon-bar"></span> <span
+						class="icon-bar"></span>
+				</button>
+				<a class="navbar-brand page-scroll" href="#page-top"
+					onclick="toggleSectionDivs('about')">ENCS691K - Auction</a>
+			</div>
+
+			<!-- Collect the nav links, forms, and other content for toggling -->
+			<div class="collapse navbar-collapse"
+				id="bs-example-navbar-collapse-1">
+				<ul class="nav navbar-nav navbar-right">
+					<li id="closeaccountMenu" style="display:none;"><a class="page-scroll" href="#closeacount"
+						onclick="toggleSectionDivs('closeaccount')">Close Account</a></li>
+					<li id="registerMenu"><a class="page-scroll" href="#regiter"
+						onclick="toggleSectionDivs('register')">Register</a></li>
+					<li id="loginMenu"><a class="page-scroll" href="#login"
+						onclick="toggleSectionDivs('login')">Login</a></li>
+					<li id="logoutMenu" style="display:none;"><a class="page-scroll" href="#logout"
+						onclick="toggleSectionDivs('logout')">Logout</a></li>
+					<li id="myitemsMenu"><a class="page-scroll" href="#myitems"
+						onclick="toggleSectionDivs('my_items')">My Items</a></li>
+					<li id="auctionMenu"><a class="page-scroll" href="#auction"
+						onclick="toggleSectionDivs('auction')">Auction</a></li>
+				</ul>
+			</div>
+			<!-- /.navbar-collapse -->
+		</div>
+		<!-- /.container-fluid -->
+	</nav>
+
+	<header>
+		<div class="header-content">
+			<div class="header-content-inner">
+
+				<div class="all">
+
+					<div class="section" id="about">
+						<h1>About</h1>
+						Term-long project for ENCS691K.
+					</div>
+
+					<div class="section" id="register">
+						<h1>Register</h1>
+						<form id="registerFrm" action="http://localhost:8080/register"
+							method="post">
+							<div class="form-group">
+								<lable>Name: </lable>
+								<input class="form-control" id="regName" type="text" name="name" />
+								<br />
+								<lable>Username: </lable>
+								<input class="form-control" id="regUsername" type="text"
+									name="username" /> <br />
+								<lable>Password: </lable>
+								<input class="form-control" id="regPassword" type="text"
+									name="password" /> <br /> <input class="form-control"
+									id="registerBtn" type="button" value="Register">
+							</div>
+						</form>
+					</div>
+
+					<div class="section" id="login">
+						<h1>Login</h1>
+						<form id="loginFrm">
+							<div class="form-group">
+								<lable>Username: </lable>
+								<input class="form-control" id="loginUsername" type="text"
+									name="username" /> <br />
+								<lable>Password: </lable>
+								<input class="form-control" id="loginPassword" type="text"
+									name="password" /> <br /> <input class="form-control"
+									id="loginBtn" type="button" value="Login" />
+							</div>
+						</form>
+					</div>
+
+					<div class="section" id="my_items">
+						<h1>My Items</h1>
+						<form id="newprodFrm">
+							<div class="form-group">
+								<lable>Name: </lable>
+								<input class="form-control" id="newprodName" type="text"
+									name="name" /> <br />
+								<lable>Base Price: </lable>
+								<input class="form-control" id="newprodBasePrice" type="text"
+									name="basePrice" /> <br /> <input class="form-control"
+									id="newprodBtn" type="button" value="Save" />
+							</div>
+						</form>
+					
+					<ul id="prodList"></ul>
+					<table id="prodTable" style="width:100%;">
+<tr>
+    <th>Name</th>
+    <th>Base Price</th>
+    <th>Auction</th>
+</tr>
+<tr class="datarecord">
+    <td>Apples</td>
+    <td>Carrots</td>
+    <td>Steak</td>
+</tr>
+</table>
+					</div>
+
+					<div class="section" id="auction">
+						<h1>Auction</h1>
+					</div>
+
+
+				</div>
+
+
+
+			</div>
+		</div>
+	</header>
+
+
+	<!-- jQuery -->
+	<script src="js/jquery.js"></script>
+
+	<!-- Bootstrap Core JavaScript -->
+	<script src="js/bootstrap.min.js"></script>
+
+	<!-- Plugin JavaScript -->
+	<script src="js/jquery.easing.min.js"></script>
+	<script src="js/jquery.fittext.js"></script>
+	<script src="js/wow.min.js"></script>
+
+	<!-- Custom Theme JavaScript -->
+	<script src="js/creative.js"></script>
+
+	<!-- Custom Theme JavaScript -->
+	<script src="js/scripts.js"></script>
+
+	<script src="js/main-user.js"></script>
+	<script src="js/main-prod.js"></script>
+
+</body>
+
+</html>

@@ -1,0 +1,77 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>Untitled Document</title>
+<script src= "http://ajax.googleapis.com/ajax/libs/angularjs/1.3.14/angular.min.js"></script>
+</head>
+
+<body>
+	<div ng-app="myApp">
+
+		<form name="saveTemplateData" action="#" ng-controller="FormCtrl">
+
+			First name:    <br/><input type="text" name="form.firstname">    <br/><br/>
+			Email Address: <br/><input type="text" ng-model="form.emailaddress"> <br/><br/>
+
+			<textarea rows="3" cols="25">Describe your reason for submitting this form ... </textarea> 
+
+				<br/><br/>
+
+			<input type="radio" ng-model="form.gender" value="female" />Female ...
+			<input type="radio" ng-model="form.gender" value="male" />Male <br/>
+
+				<br/><br/>
+
+			<input type="checkbox" ng-model="form.member" value="true"/> Already a member
+			<input type="checkbox" ng-model="form.member" value="false"/> Not a member
+
+				<br/><br/>
+
+			<input type="file" ng-model="form.file_profile" id="file_profile"><br/>
+			<input type="file" ng-model="form.file_avatar" id="file_avatar">
+
+				<br/><br/>
+
+			<input type="submit" ngClick="Submit">
+
+		</form>
+
+	</div>
+
+
+
+<script>
+var app = angular.module('myApp', []);
+app.controller('formCtrl', function($scope) {
+    $scope.master = {firstName:"John", lastName:"Doe"};
+    $scope.reset = function() {
+        $scope.user = angular.copy($scope.master);
+    };
+    $scope.reset();
+});
+
+</script>
+
+
+<script>
+
+var app = angular.module('myApp', []);
+app.controller('FormCtrl', function ($scope, $http) {
+    
+    $scope.data = {
+        firstname: "default",
+        emailaddress: "default",
+        gender: "default",
+        member: false,
+        file_profile: "default",
+        file_avatar: "default"
+    };
+    $scope.submitForm = function() {
+        console.log("posting data....");
+        $http.post('http://localhost:8080/greeting', JSON.stringify(data)).success(function(){/*success callback*/});
+    };
+});
+</script>
+</body>
+</html>

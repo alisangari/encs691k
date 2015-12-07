@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="ISO-8859-1">
+<title>Insert title here</title>
+
+
+
+
+
+</head>
+<body>
+	<form id="idForm" method="post"
+		action="http://localhost:8080/AuctionREST/rest/jsonServices">
+		Name: <input type="text" name="name" id="name"><br>
+		Message: <input type="text" name="message" id="message"><br>
+		Item 1: <input type="text" name="thelist" id="thelist"><br>
+		Item 2: <input type="text" name="thelist" id="thelist"><br>
+		<input type="submit" value="Submit">
+		<input type="button" value="test" onclick="test()"/>
+	</form>
+	
+	
+	
+	
+		<!-- jQuery -->
+	<script src="js/jquery.js"></script>
+
+	<!-- Bootstrap Core JavaScript -->
+	<script src="js/bootstrap.min.js"></script>
+
+	<!-- Plugin JavaScript -->
+	<script src="js/jquery.easing.min.js"></script>
+	<script src="js/jquery.fittext.js"></script>
+	<script src="js/wow.min.js"></script>
+
+	<!-- Custom Theme JavaScript -->
+	<script src="js/creative.js"></script>
+
+	<!-- Custom Theme JavaScript -->
+	<script src="js/scripts.js"></script>
+
+
+<script>
+//this is the id of the form
+$("#idForm").submit(function(e) {
+alert("submiting");
+alert($("#idForm").serialize());
+var url = "http://localhost:8080/AuctionREST/rest/jsonServices"; // the script where you handle the form input.
+
+    $.ajax({
+           type: "POST",
+           url: url,
+           data: $("#idForm").serialize(), // serializes the form's elements.
+           success: function(data)
+           {
+        	   alert("success);
+               alert(data); // show response from the php script.
+           }
+         });
+
+    e.preventDefault(); // avoid to execute the actual submit of the form.
+});
+</script>
+
+	
+</body>
+</html>
