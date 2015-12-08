@@ -41,10 +41,13 @@ public class AuctionService {
 	@GET
 	@Path("/placebid/{id}/{biderUsername}")
 	@Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
-	public boolean placeBid(@PathParam("id") int id, @PathParam("biderUsername") String biderUsername) {
+	public float placeBid(@PathParam("id") int id, @PathParam("biderUsername") String biderUsername) {
 		System.out.println("place bid for "+id);
 		ProductManagement prodManager = ProductManagement.getInstance();
-		return prodManager.placeBid(id, biderUsername);
+		if(prodManager.placeBid(id, biderUsername)){
+			return prodManager.getHighestBid(id);
+		}
+		return 0;
 	}
 	
 	

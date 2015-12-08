@@ -3,7 +3,6 @@ var rootURL = "http://localhost:8080/AuctionService/rest";
 
 /** ************Place bids***************** */
 function placeBid(id) {
-//	alert(username);
 	console.log('placeBid');
 	$
 			.ajax({
@@ -11,7 +10,7 @@ function placeBid(id) {
 				url : rootURL + "/auctionservice/placebid/" + id+"/"+username,
 				dataType : "json", // data type of response
 				success : function(data, textStatus, jqXHR) {
-					if (data == true) {
+					if (data > 0) {
 						showMsg(1, 'Bid placed successfully!');
 						toggleSectionDivs('auction');
 						$('#auctionMenu').click();
@@ -31,14 +30,12 @@ function placeBid(id) {
 /** ************List auction products***************** */
 //Register listeners
 $('#auctionMenu').click(function() {
-	// alert("prod list");
 	listAuctionProds();
 	return false;
 });
 
 function listAuctionProds() {
 	console.log('listAuctionProds');
-//	alert('a');
 	$.ajax({
 		type : 'GET',
 		url : rootURL + "/auctionservice",
@@ -52,17 +49,20 @@ function renderAuctionList(data) {
 	// object (not an 'array of one')
 	var list = data == null ? [] : (data instanceof Array ? data : [ data ]);
 
-	// $('#prodList li').remove();
 	$('#auctionProdTable tr.datarecord').remove();
 	$.each(list, function(index, product) {
-		// $('#prodList').append('<li>'+'<h3>'+product.name+'</h3><h2>'+product.basePrice+'</h2>'+
-		// '<a href="#" data-identity="' + product.id + '">'+
-		// product.name+'</a></li>');
+		bid = 0;
+		if(product.basePrice > product.highestBid){
+			bid = product.basePrice;
+		}
+		else{
+			bid = product.highestBid + 5;
+		}
 		$('#auctionProdTable').append(
 				'<tr class="datarecord"><td>' + product.name + '</td><td>'
-						+ product.basePrice + '</td><td onclick="placeBid('
+						+ product.basePrice + '</td><td>'+product.highestBid+'</td><td onclick="placeBid('
 						+ product.id + ')"><a href="#" data-identity="'
-						+ product.id + '">Click to bid</a></td></tr>');
+						+ product.id + '">Click to bid for '+bid+'</a></td></tr>');
 	});
 }
 
@@ -77,7 +77,7 @@ function placeInAuction(id) {
 				dataType : "json", // data type of response
 				success : function(data, textStatus, jqXHR) {
 					if (data == true) {
-						showMsg(1, 'Product place in successfully!');
+						showMsg(1, 'Product placed in auction successfully!');
 						toggleSectionDivs('my_items');
 						$('#myitemsMenu').click();
 					} else {
@@ -94,7 +94,6 @@ function placeInAuction(id) {
 /** ************List Products***************** */
 // Register listeners
 $('#myitemsMenu').click(function() {
-	// alert("prod list");
 	listProds();
 	return false;
 });
@@ -110,17 +109,12 @@ function listProds() {
 }
 
 function renderList(data) {
-	// alert(data);
 	// JAX-RS serializes an empty list as null, and a 'collection of one' as an
 	// object (not an 'array of one')
 	var list = data == null ? [] : (data instanceof Array ? data : [ data ]);
 
-	// $('#prodList li').remove();
 	$('#prodTable tr.datarecord').remove();
 	$.each(list, function(index, product) {
-		// $('#prodList').append('<li>'+'<h3>'+product.name+'</h3><h2>'+product.basePrice+'</h2>'+
-		// '<a href="#" data-identity="' + product.id + '">'+
-		// product.name+'</a></li>');
 		if (product.inAuction) {
 			$('#prodTable').append(
 					'<tr class="datarecord"><td>' + product.name + '</td><td>'
@@ -155,11 +149,16 @@ function addProduct() {
 		data : newprodFrmToJSON(),
 		success : function(data, textStatus, jqXHR) {
 			if (data == true) {
-				alert('Product created successfully');
+				showMsg(1, 'Product created successfully!');
+				toggleSectionDivs('my_items');
+				$('#myitemsMenu').click();
+			}
+			else{
+				showMsg(-1, 'Product creation failed!');
 			}
 		},
 		error : function(jqXHR, textStatus, errorThrown) {
-			alert('addProduct error: ' + textStatus);
+			showMsg(-1, 'Product creation failed - ' + textStatus);
 		}
 	});
 }

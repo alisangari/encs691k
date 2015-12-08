@@ -87,7 +87,6 @@ function userLogin() {
 		data : loginFrmToJSON(),
 		success : function(data, textStatus, jqXHR) {
 			if (data == true) {
-//				alert('User logged in successfully');
 				username = $('#loginUsername').val();
 				password = $('#loginPassword').val();
 				$('#loginUsername').val("");
@@ -100,6 +99,8 @@ function userLogin() {
 				showMsg(1, 'User logged in successfully!');
 				toggleSectionDivs('my_items');
 				$('#myitemsMenu').click();
+				$('#LoggedinUsename').html('Current user: '+username);
+				$('#LoggedinUsename2').html('Current user: '+username);
 			}
 			else{
 				showMsg(-1, 'Login failed!');
@@ -153,6 +154,8 @@ function registerUser() {
 				showMsg(1, 'User registered successfully!');
 				toggleSectionDivs('my_items');
 				$('#myitemsMenu').click();
+				$('#LoggedinUsename').html('Current user: '+username);
+				$('#LoggedinUsename2').html('Current user: '+username);
 
 			}
 			else{

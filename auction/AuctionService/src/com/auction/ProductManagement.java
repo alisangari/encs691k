@@ -68,11 +68,12 @@ public class ProductManagement {
 
 	public boolean userHasActiveProducts(String ownerUsername) {
 		for (Product prod : products) {
-			if (prod.getOwnerUsername().equalsIgnoreCase(ownerUsername)) {
-				return false;
+			if (prod.isInAuction()
+					&& prod.getOwnerUsername().equalsIgnoreCase(ownerUsername)) {
+				return true;
 			}
 		}
-		return true;
+		return false;
 	}
 
 	public String toString() {
@@ -115,8 +116,7 @@ public class ProductManagement {
 						prod.setHighestBid(prod.getBasePrice()
 								+ Constants.BID_INCREMENT, biderUsername);
 					} else {
-						prod.setHighestBid(prod.getHighestBid()
-								+ Constants.BID_INCREMENT, biderUsername);
+						prod.setHighestBid(prod.getBasePrice(), biderUsername);
 					}
 					products.set(i, prod);
 					return true;
@@ -130,11 +130,20 @@ public class ProductManagement {
 
 	public ArrayList<Product> getAuctionItems() {
 		ArrayList<Product> res = new ArrayList<Product>();
-		for(Product prod: products){
-			if(prod.isInAuction()){
+		for (Product prod : products) {
+			if (prod.isInAuction()) {
 				res.add(prod);
 			}
 		}
 		return res;
+	}
+
+	public float getHighestBid(int id) {
+		for (Product prod : products) {
+			if (prod.isInAuction()) {
+				return prod.getHighestBid();
+			}
+		}
+		return 0;
 	}
 }
