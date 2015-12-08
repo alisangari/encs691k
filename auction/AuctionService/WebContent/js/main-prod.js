@@ -2,10 +2,37 @@
 var rootURL = "http://localhost:8080/AuctionService/rest";
 
 
+/** ************Place product in auction***************** */
+placeInAuction(id){
+	console.log('placeInAuction');
+	alert('1');
+	$.ajax({
+		type: 'GET',
+		url: rootURL+"/auctionservice/placeinauction/"+id,
+		dataType: "json", // data type of response
+		success: function(data, textStatus, jqXHR) {
+			alert('2');
+			if (data == true) {
+				showMsg(1, 'Product place in successfully!');
+				toggleSectionDivs('my_items');
+				$('#myitemsMenu').click();
+			}
+			else{
+				showMsg(-1, 'Product placement in failed!');
+			}
+		},
+		error : function(jqXHR, textStatus, errorThrown) {
+			showMsg(-1, 'Product placement in auction failed! - '+textStatus);
+		}
+	});
+}
+
+
+
 /** ************List Products***************** */
 //Register listeners
 $('#myitemsMenu').click(function() {
-	alert("prod list");
+//	alert("prod list");
 	listProds();
 	return false;
 });
@@ -21,21 +48,24 @@ function listProds() {
 }
 
 function renderList(data) {
-	alert(data);
+//	alert(data);
 	// JAX-RS serializes an empty list as null, and a 'collection of one' as an object (not an 'array of one')
 	var list = data == null ? [] : (data instanceof Array ? data : [data]);
 
 //	$('#prodList li').remove();
+	alert('a');
 	$('#prodTable tr.datarecord').remove();
+	alert('b');
 	$.each(list, function(index, product) {
 //		$('#prodList').append('<li>'+'<h3>'+product.name+'</h3><h2>'+product.basePrice+'</h2>'+ '<a href="#" data-identity="' + product.id + '">'+ product.name+'</a></li>');
-		$('#prodTable').append('<tr class="datarecord"><td>'+product.name+'</td><td>'+product.basePrice+'</td><td><a href="#" data-identity="' + product.id + '">auction</a></td></tr>');
-	});
+		if(product.inAuction){
+			$('#prodTable').append('<tr class="datarecord"><td>'+product.name+'</td><td>'+product.basePrice+'</td><td>Is in auction</td></tr>');
+		}
+		else{
+			$('#prodTable').append('<tr class="datarecord"><td>'+product.name+'</td><td>'+product.basePrice+'</td><td onclick="placeInAuction('+ product.id +')"><a href="#" data-identity="' + product.id + '">Click to place in auction</a></td></tr>');
+		}
+		});
 }
-
-
-
-
 
 
 

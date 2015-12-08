@@ -63,7 +63,7 @@ public class UserService {
 		User user = userManager.getUser(username);
 		if (user != null) {
 			ProductManagement prodManager = ProductManagement.getInstance();
-			if (prodManager.userHasActiveProducts(user.getUsername())) {
+			if (!prodManager.userHasActiveProducts(user.getUsername())) {
 				return userManager.removeUser(user.getUsername(),
 						user.getPassword());
 			}

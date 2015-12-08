@@ -3,6 +3,21 @@ var rootURL = "http://localhost:8080/AuctionService/rest";
 
 var username;
 var password;
+if (username == "" || username != 'undefined') {
+	$('#loginMenu').show();
+	$('#logoutMenu').hide();
+	$('#closeaccountMenu').hide();
+	$('#registerMenu').show();
+	$('#myitemsMenu').hide();
+
+} else {
+	$('#loginMenu').hide();
+	$('#logoutMenu').show();
+	$('#closeaccountMenu').show();
+	$('#registerMenu').hide();
+	$('#myitemsMenu').show();
+
+}
 
 /** ***************Close Account********************* */
 // Register listeners
@@ -17,24 +32,28 @@ function closeAccount() {
 	$.ajax({
 		type : 'DELETE',
 		contentType : 'application/json',
-		url : rootURL + '/userservice/delete'+ '/' + username,
+		url : rootURL + '/userservice/delete' + '/' + username,
 		success : function(data, textStatus, jqXHR) {
-			alert('User account closed successfully');
 			if (data == true) {
+				showMsg(1,'User account closed successfully');
 				username = "";
 				password = "";
 				$('#loginMenu').show();
 				$('#logoutMenu').hide();
 				$('#closeaccountMenu').hide();
 				$('#registerMenu').show();
+				$('#myitemsMenu').hide();
+			}
+			else{
+				showMsg(-1, 'User account closure failed!');
 			}
 		},
 		error : function(jqXHR, textStatus, errorThrown) {
-			alert('closeAccount error: ' + textStatus);
+//			alert('closeAccount error: ' + textStatus);
+			showMessage(-1, 'User account closure failed! - '+textStatus);
 		}
 	});
 }
-
 
 /** ***************User Logout********************* */
 // Register listeners
@@ -45,6 +64,8 @@ $('#logoutMenu').click(function() {
 	$('#logoutMenu').hide();
 	$('#closeaccountMenu').hide();
 	$('#registerMenu').show();
+	$('#myitemsMenu').hide();
+	location.reload();
 	return false;
 });
 
@@ -66,17 +87,27 @@ function userLogin() {
 		data : loginFrmToJSON(),
 		success : function(data, textStatus, jqXHR) {
 			if (data == true) {
-				alert('User logged in successfully');
+//				alert('User logged in successfully');
 				username = $('#loginUsername').val();
 				password = $('#loginPassword').val();
+				$('#loginUsername').val("");
+				$('#loginPassword').val("");
 				$('#loginMenu').hide();
 				$('#logoutMenu').show();
 				$('#closeaccountMenu').show();
 				$('#registerMenu').hide();
+				$('#myitemsMenu').show();
+				showMsg(1, 'User logged in successfully!');
+				toggleSectionDivs('my_items');
+				$('#myitemsMenu').click();
+			}
+			else{
+				showMsg(-1, 'Login failed!');
 			}
 		},
 		error : function(jqXHR, textStatus, errorThrown) {
-			alert('userLogin error: ' + textStatus);
+//			alert('userLogin error: ' + textStatus);
+			showMsg(-1, 'Login failed! - '+textStatus);
 		}
 	});
 }
@@ -99,7 +130,7 @@ $('#registerBtn').click(function() {
 // Functions
 function registerUser() {
 	console.log('registerUser');
-	alert(registerFrmToJSON());
+//	alert(registerFrmToJSON());
 	$.ajax({
 		type : 'POST',
 		contentType : 'application/json',
@@ -108,17 +139,29 @@ function registerUser() {
 		data : registerFrmToJSON(),
 		success : function(data, textStatus, jqXHR) {
 			if (data == true) {
-				alert('User created successfully');
+//				alert('User created successfully');
 				username = $('#regUsername').val();
 				password = $('#regPassword').val();
+				$('#regName').val("");
+				$('#regUsername').val("");
+				$('#regPassword').val("");
 				$('#loginMenu').hide();
 				$('#logoutMenu').show();
 				$('#closeaccountMenu').show();
 				$('#registerMenu').hide();
+				$('#myitemsMenu').show();
+				showMsg(1, 'User registered successfully!');
+				toggleSectionDivs('my_items');
+				$('#myitemsMenu').click();
+
+			}
+			else{
+				showMsg(-1, 'User registration failed!');
 			}
 		},
 		error : function(jqXHR, textStatus, errorThrown) {
-			alert('registerUser error: ' + textStatus);
+//			alert('registerUser error: ' + textStatus);
+			showMsg(-1, 'User creation failed! - '+textStatus);
 		}
 	});
 }
@@ -130,4 +173,14 @@ function registerFrmToJSON() {
 		"username" : $('#regUsername').val(),
 		"password" : $('#regPassword').val()
 	});
+}
+
+/** **********************MSG BOX****************************** */
+function showMsg(type, message){
+	if(type==-1){
+		alert("ERROR: "+message);
+	}
+	if(type==1){
+		alert("SUCCESS: "+message);
+	}
 }

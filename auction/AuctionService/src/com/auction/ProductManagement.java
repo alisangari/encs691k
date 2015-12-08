@@ -43,15 +43,16 @@ public class ProductManagement {
 		}
 	}
 
-	public void placeInAuction(int id) {
+	public boolean placeInAuction(int id) {
 		for (int i = 0; i < products.size(); i++) {
 			if (products.get(i).getId() == id) {
 				Product prod = products.get(i);
 				prod.setInAuction(true);
 				products.set(i, prod);
-				break;
+				return true;
 			}
 		}
+		return false;
 	}
 
 	public void removeFromAuction(int id) {
