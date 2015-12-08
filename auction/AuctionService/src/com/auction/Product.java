@@ -9,7 +9,7 @@ public class Product {
 	private boolean inAuction;
 	private String ownerUsername;
 	private float highestBid;
-	private int highestBiderId;
+	private String highestBiderUsername;
 
 	private Product() {
 	}
@@ -21,7 +21,7 @@ public class Product {
 		this.ownerUsername = ownerUsername;
 		this.inAuction = false;
 		this.highestBid = 0f;
-		this.highestBiderId = -1;
+		this.highestBiderUsername = "";
 	}
 
 	public int getId() {
@@ -60,17 +60,30 @@ public class Product {
 		this.ownerUsername = ownerUsername;
 	}
 
-	public boolean setHighestBid(float bid, int biderId) {
+	public boolean setHighestBid(float bid, String biderUsername) {
 		if (bid > this.highestBid) {
 			this.highestBid = bid;
-			this.highestBiderId = biderId;
+			this.highestBiderUsername = biderUsername;
 			return true;
 		}
 		return false;
+	}
+	
+	public String getHighestBiderUsername(){
+		return this.highestBiderUsername;
 	}
 
 	public String toString() {
 		return "id: " + id + ", name: " + name + ", base price: " + basePrice
 				+ ", currently in auction: " + inAuction;
+	}
+
+	public void resetHighestBid() {
+		this.highestBid=0;
+		this.highestBiderUsername="";
+	}
+
+	public float getHighestBid() {
+		return this.highestBid;
 	}
 }

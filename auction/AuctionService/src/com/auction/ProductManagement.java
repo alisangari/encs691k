@@ -67,25 +67,74 @@ public class ProductManagement {
 	}
 
 	public boolean userHasActiveProducts(String ownerUsername) {
-		for(Product prod: products){
-			if(prod.getOwnerUsername().equalsIgnoreCase(ownerUsername)){
+		for (Product prod : products) {
+			if (prod.getOwnerUsername().equalsIgnoreCase(ownerUsername)) {
 				return false;
 			}
 		}
 		return true;
 	}
-	
-	public String toString(){
+
+	public String toString() {
 		return products.toString();
 	}
 
 	public ArrayList<Product> getItems(String ownerUsername) {
 		ArrayList<Product> prods = new ArrayList<Product>();
-		for(Product prod: products){
-			if(prod.getOwnerUsername().equalsIgnoreCase(ownerUsername)){
+		for (Product prod : products) {
+			if (prod.getOwnerUsername().equalsIgnoreCase(ownerUsername)) {
 				prods.add(prod);
 			}
 		}
 		return prods;
+	}
+
+	public void productTimeInAuctionIsUp(int productId) {
+		for (int i = 0; i < products.size(); i++) {
+			if (products.get(i).getId() == productId) {
+				if (!products.get(i).getHighestBiderUsername()
+						.equalsIgnoreCase("")) {
+					// conclude auction and update owner.
+					Product prod = products.get(i);
+					prod.setOwnerUsername(prod.getHighestBiderUsername());
+					prod.resetHighestBid();
+					prod.setInAuction(false);
+				} else {
+					new AuctionTimer(products.get(i).getId());
+				}
+			}
+		}
+	}
+
+	public boolean placeBid(int productId, String biderUsername) {
+		for (int i = 0; i < products.size(); i++) {
+			Product prod = products.get(i);
+			if (prod.getId() == productId) {
+				if (prod.isInAuction()) {
+					if (prod.getHighestBid() > 0) {
+						prod.setHighestBid(prod.getBasePrice()
+								+ Constants.BID_INCREMENT, biderUsername);
+					} else {
+						prod.setHighestBid(prod.getHighestBid()
+								+ Constants.BID_INCREMENT, biderUsername);
+					}
+					products.set(i, prod);
+					return true;
+				} else {// is not in auction
+					return false;
+				}
+			}
+		}
+		return false;
+	}
+
+	public ArrayList<Product> getAuctionItems() {
+		ArrayList<Product> res = new ArrayList<Product>();
+		for(Product prod: products){
+			if(prod.isInAuction()){
+				res.add(prod);
+			}
+		}
+		return res;
 	}
 }
